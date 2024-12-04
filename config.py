@@ -6,9 +6,10 @@ def load_properties():
         for line in r.readlines():
             if not line.startswith("#"):
                 kv = line.strip().split("=")
-                key = kv[0]
-                value = kv[1]
-                os.environ[key] = value
+                if len(kv) == 2:
+                    key = kv[0]
+                    value = kv[1]
+                    os.environ[key] = value
 
 
 load_properties()

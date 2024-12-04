@@ -48,4 +48,4 @@ class BaseGenerateAi:
         prompt = ""
         for event in moments:
             prompt += f"{json.dumps(event.to_dict())}\n"
-        print(chain.invoke(prompt))
+        return chain.invoke(prompt)
