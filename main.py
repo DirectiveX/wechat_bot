@@ -3,6 +3,10 @@
 import datetime
 import os
 import json
+import random
+
+from google.oauth2.reauth import refresh_grant
+
 import config
 from ai.chat_ai import BaseGenerateAi
 from entity.moment_info import MomentInfo
@@ -14,7 +18,12 @@ from ai.chat_ai import BaseGenerateAi
 from entity.moment_info import MomentInfo
 
 
+def refresh_pyq(robot: Robot):
+    robot.wcf.refresh_pyq()
+
+
 def moment_msg_conclusion(robot: Robot, ai: BaseGenerateAi):
+    refresh_pyq(robot)
     subscribe_list, subscribe_sends = get_moment_subscribe_info()
     yesterday_time = datetime.datetime.now() + datetime.timedelta(days=-1)
     from_time = yesterday_time.strftime('%Y-%m-%d %H:%M:%S')
@@ -54,6 +63,8 @@ if __name__ == '__main__':
     # robot.sendTextMsg("bibo启动成功！", "filehelper")
 
     robot.onEveryTime("00:00", moment_msg_conclusion, robot)
+    # 定期刷新朋友圈
+    robot.onEveryMinutes(random.randint(3,10), refresh_pyq, robot)
 
     robot.enableReceivingMsg()  # 加队列
     # 让机器人一直跑
