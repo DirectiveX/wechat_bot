@@ -61,13 +61,13 @@ if __name__ == '__main__':
     robot.LOG.info(f"WeChatRobot【{__version__}】成功启动···")
     # 机器人启动发送测试消息
     # robot.sendTextMsg("bibo启动成功！", "filehelper")
+    # test
+    ai = BaseGenerateAi()
 
-    robot.onEveryTime("00:00", moment_msg_conclusion, robot)
+    robot.onEveryTime("00:00", moment_msg_conclusion, robot,ai)
     # 定期刷新朋友圈
-    robot.onEveryMinutes(random.randint(3,10), refresh_pyq, robot)
+    robot.onEveryMinutes(random.randint(15,30), refresh_pyq, robot)
 
     robot.enableReceivingMsg()  # 加队列
     # 让机器人一直跑
-    # test
-    ai = BaseGenerateAi()
     robot.keepRunningAndBlockProcess()
